@@ -2086,19 +2086,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mWindowManagerInternal.registerAppTransitionListener(
                 mStatusBarController.getAppTransitionListener());
 
-        if (ENABLE_CUSTOM_INPUT_POLICY) {
-            // Custom input policy settings.
-            for (int i = 0; i < SUPPORTED_KEYCODE_LIST.length; i++) {
-                final int keyCode = SUPPORTED_KEYCODE_LIST[i];
-                mKeyPressed.put(keyCode, false);
-                mKeyConsumed.put(keyCode, false);
-                mKeyDoubleTapPending.put(keyCode, false);
-                mKeyDoubleTapRunnable.put(keyCode, createDoubleTapTimeoutRunnable(keyCode));
-                mKeyDoubleTapBehaviorDefaultResId.put(keyCode, getKeyDoubleTapBehaviorResId(keyCode));
-                mKeyLongPressBehaviorDefaultResId.put(keyCode, getKeyLongPressBehaviorResId(keyCode));
-            }
-        }
-
         String deviceKeyHandlerLib = mContext.getResources().getString(
                 com.android.internal.R.string.config_deviceKeyHandlerLib);
 
