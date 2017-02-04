@@ -4486,6 +4486,18 @@ public final class Settings {
         public static final String QS_LAYOUT_COLUMNS_LANDSCAPE = "qs_layout_columns_landscape";
 
         /**
+         * Number of qs rows on portrait orientation
+         * @hide
+         */
+        public static final String QS_LAYOUT_ROWS = "qs_layout_rows";
+
+        /**
+         * Number of qs rows on landscape orientation
+         * @hide
+         */
+        public static final String QS_LAYOUT_ROWS_LANDSCAPE = "qs_layout_rows_landscape";
+
+        /**
          * Whether to display qs tile titles in the qs panel
          * @hide
          */
@@ -7646,6 +7658,17 @@ public final class Settings {
         public static final String AUTOMATIC_STORAGE_MANAGER_LAST_RUN =
                 "automatic_storage_manager_last_run";
 
+        /**
+         * List of alarms blocks selected
+         * @hide
+         */
+        public static final String ALARM_BLOCKING_LIST = "alarm_blocking_list";
+
+        /**
+         * Enable blocking alarm
+         * @hide
+         */
+        public static final String ALARM_BLOCKING_ENABLED = "alarm_blocking_enabled";
 
         /**
          * Whether SystemUI navigation keys is enabled.
