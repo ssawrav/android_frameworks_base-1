@@ -325,6 +325,11 @@ public class SignalStrength implements Parcelable {
         ss.mLteRssnr = in.readInt();
         ss.mLteCqi = in.readInt();
         ss.mTdScdmaRscp = in.readInt();
+        /* Hack signal strength */
+        if (ss.mGsmSignalStrength < 27) ss.mGsmSignalStrength += 3;
+        if (ss.mLteSignalStrength < 91) ss.mLteSignalStrength += 5;
+        if (ss.mLteRsrp != ss.INVALID && ss.mLteRsrp > 49) ss.mLteRsrp -= 5;
+        if (ss.mLteRsrq != ss.INVALID && ss.mLteRsrq > 3) ss.mLteRsrq -= 2;
         return ss;
     }
 
@@ -398,7 +403,7 @@ public class SignalStrength implements Parcelable {
         mLteSignalStrength = (mLteSignalStrength >= 0) ? mLteSignalStrength : 99;
         mLteRsrp = ((mLteRsrp >= 44) && (mLteRsrp <= 140)) ? -mLteRsrp : SignalStrength.INVALID;
         mLteRsrq = ((mLteRsrq >= 3) && (mLteRsrq <= 20)) ? -mLteRsrq : SignalStrength.INVALID;
-        mLteRssnr = ((mLteRssnr >= -200) && (mLteRssnr <= 300) && !(mLteRsrq == SignalStrength.INVALID && mLteRssnr == -1)) ? mLteRssnr
+        mLteRssnr = ((mLteRssnr >= -200) && (mLteRssnr <= 300)) ? mLteRssnr
                 : SignalStrength.INVALID;
 
         mTdScdmaRscp = ((mTdScdmaRscp >= 25) && (mTdScdmaRscp <= 120))
