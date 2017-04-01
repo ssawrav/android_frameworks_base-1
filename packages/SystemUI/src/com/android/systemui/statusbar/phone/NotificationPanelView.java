@@ -587,14 +587,6 @@ public class NotificationPanelView extends PanelView implements
         expand(true /* animate */);
     }
 
-    private boolean isQsSecureExpandDisabled() {
-        final boolean keyguardOrShadeShowing = mStatusBarState == StatusBarState.KEYGUARD
-                || mStatusBarState == StatusBarState.SHADE_LOCKED;
-        return mLockPatternUtils.isSecure(KeyguardUpdateMonitor.getCurrentUser()) && mQsSecureExpandDisabled &&
-                keyguardOrShadeShowing;
-    }
-
-
     @Override
     public void fling(float vel, boolean expand) {
         GestureRecorder gr = ((PhoneStatusBarView) mBar).mBar.getGestureRecorder();
@@ -1090,6 +1082,7 @@ public class NotificationPanelView extends PanelView implements
         mStatusBarState = statusBarState;
         mKeyguardShowing = keyguardShowing;
         mQsContainer.setKeyguardShowing(mKeyguardShowing);
+        mQsContainer.setSecureExpandDisabled(isQsSecureExpandDisabled());
 
         if (oldState == StatusBarState.KEYGUARD
                 && (goingToFullShade || statusBarState == StatusBarState.SHADE_LOCKED)) {
@@ -2456,8 +2449,6 @@ public class NotificationPanelView extends PanelView implements
                     Settings.System.DOUBLE_TAP_SLEEP_GESTURE), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_SMART_PULLDOWN), false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Settings.Secure.LOCK_QS_DISABLED), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DOZE_WAKEUP_DOUBLETAP), false, this, UserHandle.USER_ALL);
             update();
@@ -2487,10 +2478,21 @@ public class NotificationPanelView extends PanelView implements
                     UserHandle.USER_CURRENT);
             mQsSmartPullDown = Settings.System.getIntForUser(resolver,
                     Settings.System.QS_SMART_PULLDOWN, 0, UserHandle.USER_CURRENT);
-            mQsSecureExpandDisabled = Settings.Secure.getIntForUser(resolver,
-                    Settings.Secure.LOCK_QS_DISABLED, 0, UserHandle.USER_CURRENT) == 1;
             mDozeWakeupDoubleTap = Settings.System.getIntForUser(resolver,
                     Settings.System.DOZE_WAKEUP_DOUBLETAP, 0, UserHandle.USER_CURRENT) == 1;
         }
+    }
+
+    private boolean isQsSecureExpandDisabled() {
+        final boolean keyguardOrShadeShowing = mStatusBarState == StatusBarState.KEYGUARD
+                || mStatusBarState == StatusBarState.SHADE_LOCKED;
+        return mLockPatternUtils.isSecure(KeyguardUpdateMonitor.getCurrentUser()) && mQsSecureExpandDisabled &&
+                keyguardOrShadeShowing;
+    }
+
+    public void updateSettings() {
+        mQsSecureExpandDisabled = Settings.Secure.getIntForUser(
+                mContext.getContentResolver(), Settings.Secure.LOCK_QS_DISABLED, 0,
+                UserHandle.USER_CURRENT) != 0;
     }
 }

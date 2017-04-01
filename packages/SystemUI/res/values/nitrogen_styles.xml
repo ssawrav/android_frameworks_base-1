@@ -43,4 +43,14 @@
         <item name="blendMode">overlay</item>
     </style>
     <style name="BatteryMeterViewDrawable.CircleFull"/>
+
+    <!-- Slim recents -->
+
+    <style name="card_header_favorite_icon">
+        <item name="android:layout_width">@dimen/recent_favorite_icon_size</item>
+        <item name="android:layout_height">@dimen/recent_favorite_icon_size</item>
+        <item name="android:layout_marginStart">-18dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+
 </resources>
